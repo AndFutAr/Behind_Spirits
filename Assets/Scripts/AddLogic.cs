@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class AddLogic : MonoBehaviour
 {
@@ -10,12 +11,17 @@ public class AddLogic : MonoBehaviour
     private int[] varOrnam = { 1, 2, 3, 4, 1, 2, 3 };
     private int thisOrnament = 0;
     private int attempt = 1, normAtt = 0, factor = 7, points = 0;
+    private bool isReady = false, isAnswer = false, isCorrect = false, isUncorrect = false, isWin = false, isLoss = false;
+
     [SerializeField] private TMP_Text _factor, _points;
-    private bool isReady = false, isCorrect = false, isUncorrect  = false, isWin = false, isLoss = false;
+    [SerializeField] private GameObject _ListenBut, _StartBut, _TryAlsoBut, _ContinueBut;
 
     void Start()
     {
-        
+        _ListenBut.SetActive(true);
+        _StartBut.SetActive(true);
+        _TryAlsoBut.SetActive(false);
+        _ContinueBut.SetActive(false);
     }
     void Update()
     {
@@ -31,24 +37,23 @@ public class AddLogic : MonoBehaviour
             case 6: factor = 2; break;
             case 7: factor = 1; break;
         }
-
+        if (thisOrnament >= 7)
+        {
+            isAnswer = true;
+        }
         if (isReady)
         {
-            for (int i = 0; i < varIn.Length; i++)
+            if (isAnswer)
             {
-                if (varIn[i] == varOrnam[i])
+                if (normAtt >= 7)
                 {
-                    normAtt += 1;
+                    isCorrect = true;
+                }
+                else
+                {
+                    isUncorrect = true;
                 }
             }
-        }
-        if(normAtt == 7)
-        {
-            isCorrect = true;
-        }
-        else
-        {
-            isUncorrect = true;
         }
 
 
@@ -56,23 +61,27 @@ public class AddLogic : MonoBehaviour
         {
             isWin = true;
         }
-        else if(isUncorrect)
+        else if (isUncorrect)
         {
             isLoss = true;
         }
         if (isWin)
         {
             points = factor * 10;
+            _ContinueBut.SetActive(true);
         }
         else if (isLoss)
         {
-
+            points = 0;
+            _TryAlsoBut.SetActive(true);
         }
     }
 
     public void Ready()
     {
         isReady = true;
+        _ListenBut.SetActive(false);
+        _StartBut.SetActive(false);
     }
 
     public void newAttempt()
@@ -87,32 +96,89 @@ public class AddLogic : MonoBehaviour
     {
         if (isReady)
         {
-            varIn[thisOrnament] = 1;
+            if (thisOrnament < 7)
+            {
+                varIn[thisOrnament] = 1;
+            }
             thisOrnament++;
+            if (thisOrnament == 7)
+            {
+                for (int i = 0; i < varIn.Length; i++)
+                {
+                    if (varIn[i] == varOrnam[i])
+                    {
+                        normAtt += 1;
+                    }
+                }
+            }
         }
     }
     public void SetOrnam2()
     {
         if (isReady)
         {
-            varIn[thisOrnament] = 2;
+            if (thisOrnament < 7)
+            {
+                varIn[thisOrnament] = 2;
+            }
             thisOrnament++;
+            if (thisOrnament == 7)
+            {
+                for (int i = 0; i < varIn.Length; i++)
+                {
+                    if (varIn[i] == varOrnam[i])
+                    {
+                        normAtt += 1;
+                    }
+                }
+            }
         }
     }
     public void SetOrnam3()
     {
         if (isReady)
         {
-            varIn[thisOrnament] = 3;
+            if (thisOrnament < 7)
+            {
+                varIn[thisOrnament] = 3;
+            }
             thisOrnament++;
+            if (thisOrnament == 7)
+            {
+                for (int i = 0; i < varIn.Length; i++)
+                {
+                    if (varIn[i] == varOrnam[i])
+                    {
+                        normAtt += 1;
+                    }
+                }
+            }
         }
     }
     public void SetOrnam4()
     {
         if (isReady)
         {
-            varIn[thisOrnament] = 4;
+            if (thisOrnament < 7)
+            {
+                varIn[thisOrnament] = 4;
+            }
             thisOrnament++;
+            if (thisOrnament == 7)
+            {
+                for (int i = 0; i < varIn.Length; i++)
+                {
+                    if (varIn[i] == varOrnam[i])
+                    {
+                        normAtt += 1;
+                    }
+                }
+            }
         }
+    }
+
+    public void GoToLoad()
+    {
+        Application.OpenURL("https://vk.com/increatives");
     }
 }
