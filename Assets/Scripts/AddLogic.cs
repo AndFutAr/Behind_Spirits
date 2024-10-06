@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class AddLogic : MonoBehaviour
 {
-
-    private int attempt = 1, factor = 7, points = 0;
+    private int[] varIn = new int[7];
+    private int[] varOrnam = { 1, 2, 3, 4, 1, 2, 3};
+    
+    private int attempt = 1, normAtt = 0, factor = 7, points = 0;
     private bool isReady = false, isCorrect = false, isUncorrect  = false, isWin = false, isLoss = false;
 
     void Start()
@@ -15,6 +17,26 @@ public class AddLogic : MonoBehaviour
     }
     void Update()
     {
+        if (isReady)
+        {
+            for (int i = 0; i < varIn.Length; i++)
+            {
+                if (varIn[i] == varOrnam[i])
+                {
+                    normAtt += 1;
+                }
+            }
+        }
+        if (normAtt == 7)
+        {
+            isCorrect = true;
+        }
+        else
+        {
+            isUncorrect = true;
+        }
+
+
         if (isCorrect)
         {
             isWin = true;
