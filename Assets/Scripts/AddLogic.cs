@@ -20,7 +20,6 @@ public class AddLogic : MonoBehaviour
     [SerializeField] private bool isAtt = true;
 
     [SerializeField] private GameObject _buben, _palka;
-    [SerializeField] private float _cooldown2 = 9;
 
     void Start()
     {
