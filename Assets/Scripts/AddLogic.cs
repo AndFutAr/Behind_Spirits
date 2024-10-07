@@ -4,23 +4,24 @@ using System.Numerics;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.XR;
 
 public class AddLogic : MonoBehaviour
 {
     private int[] varIn = new int[7];
-    private int[] varOrnam = { 2, 1, 3, 1, 4, 2, 4 };
+    private int[] varOrnam = { 4, 2, 4, 1, 3, 1, 2 };
     private int thisOrnament = 0;
     private int attempt = 1, normAtt = 0, factor = 7, points = 0;
     private bool isReady = false, isAnswer = false, isCorrect = false, isUncorrect = false, isWin = false, isLoss = false;
 
     [SerializeField] private TMP_Text _factor, _points;
-    [SerializeField] private GameObject _ListenBut, _StartBut, _TryAlsoBut, _ContinueBut;
-    [SerializeField] private Animation _runLine;
+    [SerializeField] private GameObject _ListenBut, _StartBut, _TryAlsoBut, _ContinueBut, _runLine;
 
     void Start()
     {
-        _runLine = GetComponent<Animation>();
-        _runLine.Play("runtable");
+        _runLine = GetComponent<Animator>();
+        tryCombination();
         _ListenBut.SetActive(true);
         _StartBut.SetActive(true);
         _TryAlsoBut.SetActive(false);
@@ -93,7 +94,7 @@ public class AddLogic : MonoBehaviour
         {
             attempt++;
         }
-        _runLine.Play("runtable");
+        tryCombination();
     }
 
     public void SetOrnam1()
@@ -179,6 +180,10 @@ public class AddLogic : MonoBehaviour
                 }
             }
         }
+    }
+    IEnumerator tryCombination()
+    {
+        GameObject combination = Instantiate(, new Vector3(2, rand, 0), Quaternion.identity);
     }
 
     public void GoToLoad()
