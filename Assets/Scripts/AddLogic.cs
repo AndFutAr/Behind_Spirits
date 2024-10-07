@@ -15,19 +15,40 @@ public class AddLogic : MonoBehaviour
 
     [SerializeField] private TMP_Text _factor, _points;
     [SerializeField] private GameObject _ListenBut, _StartBut, _TryAlsoBut, _ContinueBut;
-    [SerializeField] private Animation _runLine;
+    [SerializeField] private GameObject _runLine;
+    [SerializeField] private float _cooldown = 9;
+    [SerializeField] private bool isAtt = true;
+
+    [SerializeField] private GameObject _buben, _palka;
+    [SerializeField] private float _cooldown2 = 9;
 
     void Start()
     {
-        _runLine = GetComponent<Animation>();
-        _runLine.Play("runtable");
-        _ListenBut.SetActive(true);
-        _StartBut.SetActive(true);
+        _ListenBut.SetActive(false);
+        _StartBut.SetActive(false);
         _TryAlsoBut.SetActive(false);
         _ContinueBut.SetActive(false);
+
+        isAtt = true;
+        _cooldown = 9;
     }
     void Update()
     {
+        if (!isReady)
+        {
+            _cooldown -= Time.deltaTime;
+        }
+        if (_cooldown < 0)
+        {
+            isAtt = false;
+            _ListenBut.SetActive(true);
+            _StartBut.SetActive(true);
+        }
+        else
+        {
+            isAtt = true;
+        }
+
         _factor.text = factor.ToString();
         _points.text = points.ToString();
         switch (attempt)
@@ -83,17 +104,24 @@ public class AddLogic : MonoBehaviour
     public void Ready()
     {
         isReady = true;
+        _cooldown = 9;
         _ListenBut.SetActive(false);
         _StartBut.SetActive(false);
+        StartCoroutine(RespawnBub());
     }
 
     public void newAttempt()
     {
-        if (attempt <= 7)
+        if (attempt <= 7 && !isAtt)
         {
+            _ListenBut.SetActive(false);
+            _StartBut.SetActive(false);
             attempt++;
+            GameObject lines = Instantiate(_runLine, _runLine.transform.position, _runLine.transform.rotation);
+            lines.transform.SetParent(_runLine.transform);
+            _cooldown = 9;
+            StartCoroutine(RespawnBub());
         }
-        _runLine.Play("runtable");
     }
 
     public void SetOrnam1()
@@ -114,6 +142,7 @@ public class AddLogic : MonoBehaviour
                         normAtt += 1;
                     }
                 }
+                StartCoroutine(RespawnBub());
             }
         }
     }
@@ -135,6 +164,7 @@ public class AddLogic : MonoBehaviour
                         normAtt += 1;
                     }
                 }
+                StartCoroutine(RespawnBub());
             }
         }
     }
@@ -156,6 +186,7 @@ public class AddLogic : MonoBehaviour
                         normAtt += 1;
                     }
                 }
+                StartCoroutine(RespawnBub());
             }
         }
     }
@@ -177,8 +208,22 @@ public class AddLogic : MonoBehaviour
                         normAtt += 1;
                     }
                 }
+                StartCoroutine(RespawnBub());
             }
         }
+    }
+
+    IEnumerator RespawnBub()
+    {
+        yield return new WaitForSeconds(1);
+        _buben.SetActive(false);
+        _palka.SetActive(false);
+        GameObject bubens = Instantiate(_buben, _buben.transform.position, _buben.transform.rotation);
+        GameObject palkas = Instantiate(_palka, _palka.transform.position, _palka.transform.rotation);
+        Destroy(bubens, 10);
+        Destroy(palkas, 10);
+        _buben.SetActive(true);
+        _palka.SetActive(true);
     }
 
     public void GoToLoad()
