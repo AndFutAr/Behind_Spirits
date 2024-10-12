@@ -24,5 +24,7 @@ public class CameraMove : MonoBehaviour
         {
             gameObject.transform.position += gameObject.transform.right * _speedCam * Time.deltaTime;
         }
+
+        Camera.main.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 10;
     }
 }

@@ -25,10 +25,6 @@ public class CardScreen : MonoBehaviour,  IBeginDragHandler, IDragHandler, IEndD
         _nameText.text = _name;
         _countText.text = _count.ToString();
     }
-    void Awake()
-    {
-
-    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         OffSet = transform.position - _cam.ScreenToWorldPoint(eventData.position);

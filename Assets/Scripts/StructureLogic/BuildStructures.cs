@@ -7,7 +7,8 @@ public class BuildStructures : MonoBehaviour, IDropHandler
 {
     private GameObject? _targetStructure;
     static public GameObject? _structPrefab;
-    public GameObject[] _structures = new GameObject[15];
+    [SerializeField] private Transform _theColony;
+
     [SerializeField] private Camera _cam;
 
     void Start()
@@ -28,6 +29,7 @@ public class BuildStructures : MonoBehaviour, IDropHandler
                     if (_structPrefab != null)
                     {
                         _targetStructure = Instantiate(_structPrefab, HallHit.transform.position, Quaternion.identity);
+                        _targetStructure.transform.SetParent(_theColony);
                         _structPrefab = null;
                     }
                 }
