@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class BuildStructures : MonoBehaviour
+public class BuildStructures : MonoBehaviour, IDropHandler
 {
     private GameObject? _targetStructure;
-    private GameObject? _structPrefab;
+    static public GameObject? _structPrefab;
     public GameObject[] _structures = new GameObject[15];
     [SerializeField] private Camera _cam;
 
     void Start()
     {
-        _targetStructure = null;
+        _structPrefab = null;
     }
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonUp(0))
         {
             RaycastHit HallHit;
             Ray HallRay = _cam.ScreenPointToRay(Input.mousePosition);
@@ -27,10 +28,18 @@ public class BuildStructures : MonoBehaviour
                     if (_structPrefab != null)
                     {
                         _targetStructure = Instantiate(_structPrefab, HallHit.transform.position, Quaternion.identity);
+                        _structPrefab = null;
                     }
                 }
             }
         }
     }
-    public void 
+    public void OnDrop(PointerEventData eventData)
+    {
+        CardScreen Card = eventData.pointerDrag.GetComponent<CardScreen>();
+        if (Card)
+        {
+            Card._defaultParent = transform;
+        }
+    }
 }
