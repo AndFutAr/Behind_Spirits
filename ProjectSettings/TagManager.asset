@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - point
+  - pointDisRd
+  - pointRd
   layers:
   - Default
   - TransparentFX

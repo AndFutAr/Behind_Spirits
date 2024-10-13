@@ -43,9 +43,9 @@ public class CardScreen : MonoBehaviour,  IBeginDragHandler, IDragHandler, IEndD
         RaycastHit HallHit;
         Ray HallRay = _cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(HallRay, out HallHit) && HallHit.transform.tag == "point" && _count > 0)
+        if (Physics.Raycast(HallRay, out HallHit) && HallHit.transform.tag == "pointRd" && _count > 0)
         {
-            BuildStructures._structPrefab = _structure;
+            MapBuilder._structPrefab = _structure;
             _count -= 1;
         }
         transform.SetParent(_defaultParent);
