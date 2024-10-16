@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     static public int _thisStep = 0;
     static public bool isStep = false;
-    private float t = 0.01f;
+    private float t = 1;
     private bool _isSurvave = false;
 
     [SerializeField] private GameObject _butFinish;
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
     {
         _thisStep += 1;
         isStep = true;
-        t = 0.01f;
+        t = 1;
     }
     public void FinishStep()
     {

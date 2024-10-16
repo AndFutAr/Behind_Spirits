@@ -20,8 +20,10 @@ public class PointLogic : MonoBehaviour
     private int CountPlace = 0, FoodPerStep = 0, MaterialPerStep = 0;
     private int FactorForFood = 1, FactorForMat = 1, FactorForIdea = 1, FactorForAll = 1;
     private int ForestCount = 0, n = 1;
+    private int _chanceTile;
 
-    [SerializeField] private GameObject _tilePrefab0, _tilePrefab1;
+    [SerializeField] private GameObject _tilePrefab0;
+    [SerializeField] private GameObject[] _tile1Prefabs = new GameObject[4];
 
     void Start()
     {
@@ -29,49 +31,73 @@ public class PointLogic : MonoBehaviour
         NumStructJ = gameObject.transform.position.z + 5;
         _pointPosI = (int)NumStructI / 1;
         _pointPosJ = (int)NumStructJ / 1;
+        _chanceTile = Random.Range(0, 3);
 
         if ((_pointPosI == 4 || _pointPosI == 5 || _pointPosI == 6) && (_pointPosJ == 4 || _pointPosJ == 5 || _pointPosJ == 6))
         {
             isReady = true;
-            _structureMesh = _tilePrefab1;
         }
         else
         {
             isReady = false;
-            _structureMesh = _tilePrefab0;
         }
         //_structure = Instantiate(_structureMesh, gameObject.transform.position, Quaternion.identity);
         //_structure.transform.SetParent(this.transform);
         GetIdea = 1;
+
+        if (isReady && !isStruct)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                _tile1Prefabs[i].SetActive(false);
+            }
+            _tilePrefab0.SetActive(true);
+
+            transform.tag = "pointRd";
+        }
+        else if (!isReady)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                _tile1Prefabs[i].SetActive(false);
+            }
+            _tilePrefab0.SetActive(false);
+            _tile1Prefabs[_chanceTile].SetActive(true);
+            transform.tag = "pointDisRd";
+        }
     }
     void Update()
     {
         if (transform.tag == "pointRd")
         {
             isReady = true;
+            for (int i = 0; i < 4; i++)
+            {
+                _tile1Prefabs[i].SetActive(false);
+            }
+            _tilePrefab0.SetActive(true);
         }
         else if (transform.tag == "pointDisRd")
         {
             isReady = false;
+            for (int i = 0; i < 4; i++)
+            {
+                _tile1Prefabs[i].SetActive(false);
+            }
+            _tilePrefab0.SetActive(false);
+            _tile1Prefabs[_chanceTile].SetActive(true);
         }
 
         if (isReady && !isStruct)
         {
-            _structureMesh = _tilePrefab1;
-            _tilePrefab1.SetActive(true);
-            _tilePrefab0.SetActive(false);
             transform.tag = "pointRd";
         }
         else if (!isReady)
         {
-            _tilePrefab1.SetActive(false);
-            _tilePrefab0.SetActive(true);
-            _structureMesh = _tilePrefab0;
             transform.tag = "pointDisRd";
         }
         else if (isReady && isStruct)
         {
-            _structureMesh = _tilePrefab1;
             transform.tag = "pointSt";
         }
 

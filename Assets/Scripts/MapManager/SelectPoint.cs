@@ -79,8 +79,6 @@ public class SelectPoint : MonoBehaviour
     {
         if (_selectedPoint != null && _ChopCell < Player._countPeople / 2 && Player._countPeople > 0)
         {
-            GameObject _tile0 = _selectedPoint.transform.Find("TilePrefab0").gameObject;
-            GameObject _tile1 = _selectedPoint.transform.Find("TilePrefab1").gameObject;
             isRd = true;
             isStr = false;
             _ChopCell++;
