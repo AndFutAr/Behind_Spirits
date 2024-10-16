@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 7264317170194641789}
   m_Layer: 0
   m_Name: TilePrefab1
-  m_TagString: Untagged
+  m_TagString: pointRd
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6094610939282320981
 Transform:
   m_ObjectHideFlags: 0

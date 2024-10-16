@@ -4,9 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - point
   - pointDisRd
   - pointRd
+  - pointSt
+  - StructMain
+  - StructSide
+  - StructCon
   layers:
   - Default
   - TransparentFX
@@ -14,14 +17,14 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlaceLive
+  - Food
+  - Material
+  - Ideas
+  - All1
+  - All2
+  - Population
+  - Spirits
   - 
   - 
   - 

@@ -6,7 +6,8 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private GameObject _pointSetka;
     [SerializeField] private GameObject _buildBut, _buildMenu;
-    [SerializeField] private GameObject _butControl, _sideMenu;
+    [SerializeField] private GameObject _butControl, _sideMenu, _planMenu;
+    [SerializeField] private GameObject _butPlan, _butBuild;
     [SerializeField] private GameObject _mainMenu, _conMenu;
     [SerializeField] private GameObject _sidePro, _sideSoc;
 
@@ -23,6 +24,13 @@ public class UI : MonoBehaviour
         _conMenu.SetActive(false);
     }
 
+    void Update()
+    {
+        if(!Player.isStep)
+        {
+            Start();
+        }
+    }
     public void OpenMain()
     {
         _mainMenu.SetActive(true);
@@ -57,14 +65,32 @@ public class UI : MonoBehaviour
         _mainMenu.SetActive(false);
         _conMenu.SetActive(false);
     }
-
+    
+    public void Plun()
+    {
+        _sideMenu.SetActive(false);
+        _butControl.SetActive(false);
+        _planMenu.SetActive(true);
+        _butBuild.SetActive(true);
+        _butPlan.SetActive(false);
+    }
 
     public void StartBuilding()
     {
-        _pointSetka.SetActive(true);
+        if (Player.isStep)
+        {
+            _pointSetka.SetActive(true);
 
-        _buildBut.SetActive(false);
-        _buildMenu.SetActive(true);
+            _buildBut.SetActive(false);
+            _buildMenu.SetActive(true);
+
+            _butControl.SetActive(true);
+            _sideMenu.SetActive(false);
+            _planMenu.SetActive(false);
+
+            _butBuild.SetActive(false);
+            _butPlan.SetActive(true);
+        }
     }
     public void CloseBuild()
     {

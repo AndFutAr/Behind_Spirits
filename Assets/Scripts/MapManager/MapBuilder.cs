@@ -5,12 +5,13 @@ using UnityEngine.EventSystems;
 
 public class MapBuilder : MonoBehaviour, IDropHandler
 {
-    private GameObject _targetTile, _targetPrefab;
-    private bool _tileType;
-    [SerializeField] private GameObject _tile0Prefab, _tile1Prefab;
+    private GameObject _targetTile;
+    [SerializeField] private GameObject _tilePrefab;
 
     private GameObject? _targetStructure;
     static public GameObject? _structPrefab;
+    static public int StructType;
+    static public int StructBuff;
     [SerializeField] private Transform _theColony, _theLocation;
 
     [SerializeField] private Camera _cam;
@@ -21,51 +22,49 @@ public class MapBuilder : MonoBehaviour, IDropHandler
         {
             for(int j = -5; j <= 5; j++)
             {
-                _tileType = false;
-                if((i == -1 || i == 0 || i == 1) && (j == -1 || j == 0 || j == 1))
-                {
-                    _tileType = true;
-                }
-
-                if (_tileType)
-                {
-                    _targetPrefab = _tile1Prefab;
-                }
-                else
-                {
-                    _targetPrefab = _tile0Prefab;
-                }
-                _targetTile = Instantiate(_targetPrefab, new Vector3(i, 0, j), Quaternion.identity);
+                _targetTile = Instantiate(_tilePrefab, new Vector3(i, 0.01f, j), Quaternion.identity);
                 _targetTile.transform.SetParent(_theLocation);
-
-                if (_tileType)
-                {
-                    _targetTile.transform.tag = "pointRd";
-                }
-                else
-                {
-                    _targetTile.transform.tag = "pointDisRd";
-                }
             }
         }
         _structPrefab = null;
     }
     void Update()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Player.isStep)
         {
-            RaycastHit HallHit;
-            Ray HallRay = _cam.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(HallRay, out HallHit))
+            if (Input.GetMouseButtonUp(0))
             {
-                if (HallHit.transform.tag == "pointRd")
+                RaycastHit HallHit;
+                Ray HallRay = _cam.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(HallRay, out HallHit))
                 {
-                    if (_structPrefab != null)
+                    if (HallHit.transform.tag == "pointRd" && HallHit.transform != SelectPoint._selectedPoint)
                     {
-                        _targetStructure = Instantiate(_structPrefab, new Vector3(HallHit.transform.position.x, 1.5f, HallHit.transform.position.z), Quaternion.identity);
-                        _targetStructure.transform.SetParent(_theColony);
-                        _structPrefab = null;
+                        if (_structPrefab != null)
+                        {
+                            _targetStructure = Instantiate(_structPrefab, new Vector3(HallHit.transform.position.x, 1.65f, HallHit.transform.position.z), Quaternion.identity);
+                            _targetStructure.transform.SetParent(_theColony);
+                            switch (StructType)
+                            {
+                                case 1: _targetStructure.transform.tag = "StructMain"; break;
+                                case 2: _targetStructure.transform.tag = "StructSide"; break;
+                                case 3: _targetStructure.transform.tag = "StructCon"; break;
+                            }
+                            switch (StructBuff)
+                            {
+                                case 1: _targetStructure.layer = LayerMask.NameToLayer("PlaceLive"); break;
+                                case 2: _targetStructure.layer = LayerMask.NameToLayer("Food"); break;
+                                case 3: _targetStructure.layer = LayerMask.NameToLayer("Material"); break;
+                                case 4: _targetStructure.layer = LayerMask.NameToLayer("Ideas"); break;
+                                case 5: _targetStructure.layer = LayerMask.NameToLayer("All1"); break;
+                                case 7: _targetStructure.layer = LayerMask.NameToLayer("Population"); break;
+                                case 8: _targetStructure.layer = LayerMask.NameToLayer("Spirits"); break;
+                            }
+
+                            _structPrefab = null;
+                            HallHit.transform.tag = "pointSt";
+                        }
                     }
                 }
             }
