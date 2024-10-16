@@ -14,16 +14,19 @@ public class Player : MonoBehaviour
 
 
     static public int _countPeople = 0, _placeForLive = 0, _foodPerStep = 0, _materialPerStep = 0, _ideasPerStep = 0, _repOfColony = 20, _repOfSpirits = 20;
-    [SerializeField] private Text _countText, _placeText, _foodText, _matText, _ideaText, _repSpirit, _repCol, _stepText; 
+    private int _needFood;
+    [SerializeField] private Text _countText, _placeText, _foodText, _matText, _ideaText, _repSpirit, _repCol, _stepText, _needFoodText;
 
     static public int _thisStep = 0;
     static public bool isStep = false;
+    private float t = 0.01f;
+    private bool _isSurvave = false;
 
-    [SerializeField] private GameObject _butStart, _butFinish;
+    [SerializeField] private GameObject _butFinish;
 
     void Start()
     {
-        isStep = false;
+        StartStep();
 
         limit = Mathf.Abs(limit);
         if (limit > 90) limit = 90;
@@ -38,17 +41,25 @@ public class Player : MonoBehaviour
         _repCol.text = _repOfColony.ToString();
         _repSpirit.text = _repOfSpirits.ToString();
         _stepText.text = _thisStep.ToString();
+        _needFoodText.text = _needFood.ToString();
 
-
-        if(isStep)
+        if (isStep)
         {
-            _butStart.SetActive(false);
             _butFinish.SetActive(true);
         }
         else
         {
-            _butStart.SetActive(true);
             _butFinish.SetActive(false);
+            t -= Time.deltaTime;
+
+            if (_isSurvave == true && t <= 0)
+            {
+                StartStep();
+            }
+            else
+            {
+                isStep = false;
+            }
         }
         if (isStep)
         {
@@ -77,9 +88,10 @@ public class Player : MonoBehaviour
                 Y += Input.GetAxis("Mouse Y") * sensitivity;
                 Y = Mathf.Clamp(Y, -limit, limit);
                 transform.localEulerAngles = new Vector3(-Y, X, 0);
+                transform.position = transform.localRotation * offset + target.position;
             }
         }
-        if(_thisStep == 11 || _repOfColony <= 0 || _repOfSpirits <= 0)
+        if (_thisStep == 11 || _repOfColony <= 0 || _repOfSpirits <= 0)
         {
             _thisStep = 10;
             isStep = false;
@@ -89,11 +101,25 @@ public class Player : MonoBehaviour
     {
         _thisStep += 1;
         isStep = true;
+        t = 0.01f;
     }
     public void FinishStep()
     {
-        _foodPerStep = 0;
-        _materialPerStep = 0;
-        isStep = false;
+        if (SelectPoint._selectedPoint == null)
+        {
+            _needFood = _countPeople;
+            isStep = false;
+            _materialPerStep = 0;
+            if (_foodPerStep >= _needFood)
+            {
+                _isSurvave = true;
+            }
+            else
+            {
+                _isSurvave = false;
+            }
+            _foodPerStep = 0;
+        }
     }
 }
+

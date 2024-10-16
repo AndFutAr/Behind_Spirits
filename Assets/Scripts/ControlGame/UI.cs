@@ -26,7 +26,7 @@ public class UI : MonoBehaviour
 
     void Update()
     {
-        if(!Player.isStep)
+        if (!Player.isStep)
         {
             Start();
         }
@@ -65,7 +65,7 @@ public class UI : MonoBehaviour
         _mainMenu.SetActive(false);
         _conMenu.SetActive(false);
     }
-    
+
     public void Plun()
     {
         _sideMenu.SetActive(false);

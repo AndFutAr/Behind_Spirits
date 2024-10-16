@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CardScreen : MonoBehaviour,  IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardScreen : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private Camera _cam;
     Vector3 OffSet, StartPos;
@@ -58,7 +58,7 @@ public class CardScreen : MonoBehaviour,  IBeginDragHandler, IDragHandler, IEndD
         RaycastHit HallHit;
         Ray HallRay = _cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(HallRay, out HallHit) && HallHit.transform.tag == "pointRd" && _count > 0  && SelectPoint._selectedPoint != HallHit.transform)
+        if (Physics.Raycast(HallRay, out HallHit) && HallHit.transform.tag == "pointRd" && _count > 0 && SelectPoint._selectedPoint != HallHit.transform)
         {
             MapBuilder._structPrefab = _structure;
             MapBuilder.StructType = _structType;

@@ -10,7 +10,7 @@ public class SelectPoint : MonoBehaviour
     [SerializeField] private Text _selectText, _structText, _structTypeText;
 
     static public bool isRd, isStr;
-    private int _ChopCell = 0;
+    public int _ChopCell = 0;
     static public string StructText;
 
     [SerializeField] private Camera _cam;
@@ -21,7 +21,7 @@ public class SelectPoint : MonoBehaviour
     }
     void Update()
     {
-        if(!Player.isStep)
+        if (!Player.isStep)
         {
             _selectedPoint = null;
         }
@@ -65,7 +65,7 @@ public class SelectPoint : MonoBehaviour
                 }
             }
         }
-        if (_selectedPoint != null  && _selectedPoint.tag == "pointSt")
+        if (_selectedPoint != null && _selectedPoint.tag == "pointSt")
         {
             isRd = true;
             isStr = true;
@@ -73,7 +73,7 @@ public class SelectPoint : MonoBehaviour
         _selectText.text = isRd.ToString();
         _structText.text = isStr.ToString();
         _structTypeText.text = StructText;
-            
+
     }
     public void ChopForest()
     {

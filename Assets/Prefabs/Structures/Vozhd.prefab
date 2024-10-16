@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3565044407692923149}
   - component: {fileID: 1423866881117611480}
   - component: {fileID: 1538309416966899740}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Vozhd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,6 +145,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 087d6fb195e214c47968a4b32a2d78a1, type: 3}
       propertyPath: m_Name
       value: Chum_Vozdya
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 087d6fb195e214c47968a4b32a2d78a1, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

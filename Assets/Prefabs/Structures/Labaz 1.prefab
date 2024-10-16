@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4948197078268168896}
   - component: {fileID: 8287851004704310629}
   - component: {fileID: 6116077246841303471}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Labaz
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4126841528893015638}
   - component: {fileID: 8240900463809627377}
   - component: {fileID: 7136533758706138997}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Labaz 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

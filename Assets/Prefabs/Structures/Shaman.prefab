@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3012646593166758162}
   - component: {fileID: 87533206088694808}
   - component: {fileID: 7456007296558740637}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Shaman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,6 +145,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9979969439ba39140bb97dbc5911599c, type: 3}
       propertyPath: m_Name
       value: Chum_shamans
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9979969439ba39140bb97dbc5911599c, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

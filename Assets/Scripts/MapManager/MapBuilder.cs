@@ -18,9 +18,9 @@ public class MapBuilder : MonoBehaviour, IDropHandler
 
     void Start()
     {
-        for(int i = -5; i <= 5; i++)
+        for (int i = -5; i <= 5; i++)
         {
-            for(int j = -5; j <= 5; j++)
+            for (int j = -5; j <= 5; j++)
             {
                 _targetTile = Instantiate(_tilePrefab, new Vector3(i, 0.01f, j), Quaternion.identity);
                 _targetTile.transform.SetParent(_theLocation);

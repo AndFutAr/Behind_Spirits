@@ -17,8 +17,9 @@ public class PointLogic : MonoBehaviour
     /*private int StructureType;
     private int StructureBuff;*/
 
-    public int CountPlace = 0, FoodPerStep = 0, MaterialPerStep = 0;
+    private int CountPlace = 0, FoodPerStep = 0, MaterialPerStep = 0;
     private int FactorForFood = 1, FactorForMat = 1, FactorForIdea = 1, FactorForAll = 1;
+    private int ForestCount = 0, n = 1;
 
     [SerializeField] private GameObject _tilePrefab0, _tilePrefab1;
 
@@ -29,7 +30,7 @@ public class PointLogic : MonoBehaviour
         _pointPosI = (int)NumStructI / 1;
         _pointPosJ = (int)NumStructJ / 1;
 
-        if((_pointPosI == 4 || _pointPosI == 5 || _pointPosI == 6) && (_pointPosJ == 4 || _pointPosJ == 5 || _pointPosJ == 6))
+        if ((_pointPosI == 4 || _pointPosI == 5 || _pointPosI == 6) && (_pointPosJ == 4 || _pointPosJ == 5 || _pointPosJ == 6))
         {
             isReady = true;
             _structureMesh = _tilePrefab1;
@@ -45,6 +46,15 @@ public class PointLogic : MonoBehaviour
     }
     void Update()
     {
+        if (transform.tag == "pointRd")
+        {
+            isReady = true;
+        }
+        else if (transform.tag == "pointDisRd")
+        {
+            isReady = false;
+        }
+
         if (isReady && !isStruct)
         {
             _structureMesh = _tilePrefab1;
@@ -88,42 +98,43 @@ public class PointLogic : MonoBehaviour
                 }
                 else if (Player._placeForLive > 2)
                 {
-                    if (Player._thisStep == _needStep)
+                    if (Player._thisStep == _needStep && Player._countPeople < Player._foodPerStep)
                     {
-                        Player._countPeople = Player._placeForLive;
+                        Player._countPeople++;
                         _needStep = -1;
                     }
                 }
             }
             else if (StructureText == "Lesopilka")
             {
-                if(GetMat == 1)
+                if (GetMat == 1)
                 {
                     GetMat = 0;
                     MaterialPerStep *= (FactorForMat * FactorForAll);
-                    Player._materialPerStep += MaterialPerStep;
+                    Player._materialPerStep += 3 * FactorForMat * FactorForAll;
                 }
             }
             else if (StructureText == "Labas")
             {
-                if(GetFood == 1)
+                if (GetFood == 1)
                 {
                     GetFood = 0;
                     FoodPerStep *= (FactorForFood * FactorForAll);
-                    Player._foodPerStep += FoodPerStep;
+                    Player._foodPerStep += (3 * FactorForFood * FactorForAll + ForestCount);
                 }
             }
-            else if(StructureText == "Koster")
+            else if (StructureText == "Koster")
             {
-                if(GetIdea == 1)
+                if (GetIdea == 1)
                 {
                     Player._ideasPerStep += 2 * FactorForIdea * FactorForAll;
                     GetIdea = 0;
                 }
             }
         }
-        else if(!Player.isStep)
+        else if (!Player.isStep)
         {
+            _needStep = Player._thisStep + 1;
             if (StructureText == "Lesopilka")
             {
                 GetMat = 1;
@@ -135,7 +146,7 @@ public class PointLogic : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (GetStruct == 1)
         {
@@ -164,9 +175,9 @@ public class PointLogic : MonoBehaviour
                 {
                     StructureText = "Koster";
                 }
-                GetStruct = 0;
+                //GetStruct = 0;
             }
-            else if (collision.transform.tag == "StructSide")
+            if (collision.transform.tag == "StructSide")
             {
                 if (collision.gameObject.layer == LayerMask.NameToLayer("PlaceLive"))
                 {
@@ -175,11 +186,14 @@ public class PointLogic : MonoBehaviour
                         StructureText = "Arhiv";
                         isStruct = true;
                     }
-                    CountPlace += 1;
-                    Player._placeForLive += 1;
+                    if (StructureText == "Chum")
+                    {
+                        CountPlace += 1;
+                        Player._placeForLive += 1;
+                    }
 
                 }
-                else if (collision.gameObject.layer == LayerMask.NameToLayer("Food"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Food"))
                 {
                     if (collision.transform.position.x == gameObject.transform.position.x && collision.transform.position.z == gameObject.transform.position.z)
                     {
@@ -188,7 +202,7 @@ public class PointLogic : MonoBehaviour
                     }
                     FactorForFood = 2;
                 }
-                else if (collision.gameObject.layer == LayerMask.NameToLayer("Material"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Material"))
                 {
                     if (collision.transform.position.x == gameObject.transform.position.x && collision.transform.position.z == gameObject.transform.position.z)
                     {
@@ -197,7 +211,7 @@ public class PointLogic : MonoBehaviour
                     }
                     FactorForMat = 2;
                 }
-                else if (collision.gameObject.layer == LayerMask.NameToLayer("Ideas"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Ideas"))
                 {
                     if (collision.transform.position.x == gameObject.transform.position.x && collision.transform.position.z == gameObject.transform.position.z)
                     {
@@ -206,7 +220,7 @@ public class PointLogic : MonoBehaviour
                     }
                     FactorForIdea = 2;
                 }
-                else if (collision.gameObject.layer == LayerMask.NameToLayer("All1"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("All1"))
                 {
                     FactorForAll = 2;
 
@@ -216,7 +230,7 @@ public class PointLogic : MonoBehaviour
                         isStruct = true;
                     }
                 }
-                else if (collision.gameObject.layer == LayerMask.NameToLayer("Spirits"))
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Spirits"))
                 {
                     if (collision.transform.position.x == gameObject.transform.position.x && collision.transform.position.z == gameObject.transform.position.z)
                     {
@@ -224,9 +238,9 @@ public class PointLogic : MonoBehaviour
                         isStruct = true;
                     }
                 }
-                GetStruct = 0;
+                //GetStruct = 0;
             }
-            else if (collision.transform.tag == "StructCon")
+            if (collision.transform.tag == "StructCon")
             {
                 isStruct = true;
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Population"))
@@ -237,7 +251,26 @@ public class PointLogic : MonoBehaviour
                 {
                     StructureText = "Shaman";
                 }
-                GetStruct = 0;
+                //GetStruct = 0;
+            }
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.transform.tag == "pointDisRd")
+        {
+            if (StructureText == "Lesopilka" && (collision.transform.position.x == transform.position.x || collision.transform.position.z == transform.position.z))
+            {
+                collision.transform.tag = "pointRd";
+                ForestCount += 1;
+                Player._materialPerStep += 2;
+                Player._repOfSpirits -= 2;
+            }
+            else if (StructureText == "Labas" && n == 1)
+            {
+                n = 0;
+                ForestCount = 1;
+                Player._repOfSpirits -= 2;
             }
         }
     }
