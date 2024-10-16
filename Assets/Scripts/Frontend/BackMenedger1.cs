@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class PopupController : MonoBehaviour
+public class BackMenedger1 : MonoBehaviour
 {
     public GameObject darkBackground; // Затемняющий фон
     public GameObject popupWindow; // Всплывающее окно
