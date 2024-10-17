@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Globalization;
 
 public class PointLogic : MonoBehaviour
@@ -14,10 +15,12 @@ public class PointLogic : MonoBehaviour
     [SerializeField] private GameObject _structure;
     private GameObject _structureMesh;
     private int _needStep = -1, GetFood = 0, GetMat = 0, GetStruct = 1, GetIdea = 1;
+    static public bool isChop = false;
     /*private int StructureType;
     private int StructureBuff;*/
 
-    private int CountPlace = 0, FoodPerStep = 0, MaterialPerStep = 0;
+    private int CountPlace = 0, FoodPerStep = 0, MaterialPerStep = 0, IdeaCount = 10;
+    private bool CheckForest = false;
     private int FactorForFood = 1, FactorForMat = 1, FactorForIdea = 1, FactorForAll = 1;
     private int ForestCount = 0, n = 1;
     private int _chanceTile;
@@ -107,6 +110,10 @@ public class PointLogic : MonoBehaviour
             SelectPoint.StructText = StructureText;
             isReady = SelectPoint.isRd;
             isStruct = SelectPoint.isStr;
+            if (isReady)
+            {
+                transform.tag = "pointRd";
+            }
         }
         else
         {
@@ -153,7 +160,8 @@ public class PointLogic : MonoBehaviour
             {
                 if (GetIdea == 1)
                 {
-                    Player._ideasPerStep += 2 * FactorForIdea * FactorForAll;
+                    IdeaCount = 10;
+                    Player._ideasPerStep += IdeaCount * FactorForIdea * FactorForAll;
                     GetIdea = 0;
                 }
             }
@@ -169,6 +177,8 @@ public class PointLogic : MonoBehaviour
             {
                 GetFood = 1;
             }
+            IdeaCount = 10;
+            CheckForest = true;
         }
     }
 
@@ -297,6 +307,29 @@ public class PointLogic : MonoBehaviour
                 n = 0;
                 ForestCount = 1;
                 Player._repOfSpirits -= 2;
+            }
+        }
+        else if (collision.transform.tag != "pointStr" && CheckForest == false)
+        {
+            if (StructureText == "Koster")
+            {
+                CheckForest = true;
+                IdeaCount -= 1;
+            }
+        }
+        if (collision.transform.tag == "pointRd" && isSelected == true && isChop == false)
+        {
+            if (!isReady)
+            {
+                isChop = true;
+
+            }
+        }
+        if(collision.collider.tag == "Totem")
+        {
+            if(StructureText == "Shaman")
+            {
+                Invocation.factorShaman = 2;
             }
         }
     }

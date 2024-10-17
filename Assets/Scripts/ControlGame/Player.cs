@@ -15,12 +15,13 @@ public class Player : MonoBehaviour
 
     static public int _countPeople = 0, _placeForLive = 0, _foodPerStep = 0, _materialPerStep = 0, _ideasPerStep = 0, _repOfColony = 20, _repOfSpirits = 20;
     private int _needFood;
-    [SerializeField] private Text _countText, _placeText, _foodText, _matText, _ideaText, _repSpirit, _repCol, _stepText, _needFoodText;
+    [SerializeField] private Text _countText, _placeText, _foodText, _matText, _ideaText, _repSpirit, _repCol, _stepText, _needFoodText, _needPeopleText;
 
     static public int _thisStep = 0;
     static public bool isStep = false;
     private float t = 1;
     private bool _isSurvave = false;
+    static public bool isVozhd = false, isShaman = false;
 
     [SerializeField] private GameObject _butFinish;
 
@@ -42,6 +43,19 @@ public class Player : MonoBehaviour
         _repSpirit.text = _repOfSpirits.ToString();
         _stepText.text = _thisStep.ToString();
         _needFoodText.text = _needFood.ToString();
+
+        if (_thisStep % 3 == 0)
+        {
+            _needPeopleText.text = ((_thisStep / 3) * 2 + 2).ToString();
+        }
+        else if ((_thisStep + 1) % 3 == 0)
+        {
+            _needPeopleText.text = (((_thisStep + 1) / 3) * 2 + 2).ToString();
+        }
+        else if ((_thisStep + 2) % 3 == 0)
+        {
+            _needPeopleText.text = (((_thisStep + 2) / 3) * 2 + 2).ToString();
+        }
 
         if (isStep)
         {
@@ -91,6 +105,17 @@ public class Player : MonoBehaviour
                 transform.position = transform.localRotation * offset + target.position;
             }
         }
+        if (_thisStep % 4 == 0 && _thisStep > 0)
+        {
+            if ((_countPeople < ((_thisStep / 3) * 2 + 2) && _countPeople > 0) || (_thisStep == 2 && isVozhd == false) || (_thisStep == 2 && _countPeople == 0))
+            {
+                _repOfColony = 0;
+            }
+        }
+        if ((_thisStep == 3 && isVozhd == false) || (_thisStep == 2 && _countPeople == 0))
+        {
+            _repOfColony = 0;
+        }
         if (_thisStep == 11 || _repOfColony <= 0 || _repOfSpirits <= 0)
         {
             _thisStep = 10;
@@ -119,6 +144,7 @@ public class Player : MonoBehaviour
                 _isSurvave = false;
             }
             _foodPerStep = 0;
+            _ideasPerStep = 0;
         }
     }
 }

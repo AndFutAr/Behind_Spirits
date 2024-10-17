@@ -13,8 +13,8 @@ public class AC1 : MonoBehaviour
     void Start()
     {
         // Подписка на событие нажатия кнопки
-        playAnimationButton.onClick.AddListener(PlayAnimation);
-        playAnimationButton1.onClick.AddListener(PlayAnimation);
+       // playAnimationButton.onClick.AddListener(PlayAnimation);
+       // playAnimationButton1.onClick.AddListener(PlayAnimation);
     }
 
     void PlayAnimation()

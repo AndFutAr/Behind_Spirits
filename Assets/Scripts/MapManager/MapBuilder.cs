@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class MapBuilder : MonoBehaviour, IDropHandler
@@ -16,6 +17,8 @@ public class MapBuilder : MonoBehaviour, IDropHandler
 
     [SerializeField] private Camera _cam;
 
+    public GameObject _butSpirit, _butPopulat;
+
     void Start()
     {
         for (int i = -5; i <= 5; i++)
@@ -27,6 +30,9 @@ public class MapBuilder : MonoBehaviour, IDropHandler
             }
         }
         _structPrefab = null;
+
+        _butPopulat.SetActive(false);
+        _butSpirit.SetActive(false);
     }
     void Update()
     {
@@ -58,8 +64,8 @@ public class MapBuilder : MonoBehaviour, IDropHandler
                                 case 3: _targetStructure.layer = LayerMask.NameToLayer("Material"); break;
                                 case 4: _targetStructure.layer = LayerMask.NameToLayer("Ideas"); break;
                                 case 5: _targetStructure.layer = LayerMask.NameToLayer("All1"); break;
-                                case 7: _targetStructure.layer = LayerMask.NameToLayer("Population"); break;
-                                case 8: _targetStructure.layer = LayerMask.NameToLayer("Spirits"); break;
+                                case 7: _targetStructure.layer = LayerMask.NameToLayer("Population"); _butPopulat.SetActive(true); Player.isVozhd = true;  break;
+                                case 8: _targetStructure.layer = LayerMask.NameToLayer("Spirits"); _butSpirit.SetActive(true); Player.isShaman = true; break;
                             }
 
                             _structPrefab = null;
