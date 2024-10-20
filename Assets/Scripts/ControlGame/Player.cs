@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     static public int _countPeople = 0, _placeForLive = 0, _foodPerStep = 0, _materialPerStep = 0, _ideasPerStep = 0, _repOfColony = 20, _repOfSpirits = 20;
     private int _needFood;
     [SerializeField] private Text _countText, _placeText, _foodText, _matText, _ideaText, _repSpirit, _repCol, _stepText, _needFoodText, _needPeopleText;
+    [SerializeField] private GameObject _spiritNormal, _spiritNotNormal;
 
     static public int _thisStep = 0;
     static public bool isStep = false;
@@ -121,6 +122,16 @@ public class Player : MonoBehaviour
             _thisStep = 10;
             isStep = false;
         }
+        if(_repOfSpirits <= 5)
+        {
+            _spiritNormal.SetActive(false);
+            _spiritNotNormal.SetActive(true);
+        }
+        else
+        {
+            _spiritNormal.SetActive(true);
+            _spiritNotNormal.SetActive(false);
+        }
     }
     public void StartStep()
     {
@@ -130,22 +141,20 @@ public class Player : MonoBehaviour
     }
     public void FinishStep()
     {
-        if (SelectPoint._selectedPoint == null)
+        SelectPoint._selectedPoint = null;  
+        _needFood = _countPeople;
+        isStep = false;
+        _materialPerStep = 0;
+        if (_foodPerStep >= _needFood)
         {
-            _needFood = _countPeople;
-            isStep = false;
-            _materialPerStep = 0;
-            if (_foodPerStep >= _needFood)
-            {
-                _isSurvave = true;
-            }
-            else
-            {
-                _isSurvave = false;
-            }
-            _foodPerStep = 0;
-            _ideasPerStep = 0;
+            _isSurvave = true;
         }
+        else
+        {
+            _isSurvave = false;
+        }
+        _foodPerStep = 0;
+        _ideasPerStep = 0;
     }
 }
 

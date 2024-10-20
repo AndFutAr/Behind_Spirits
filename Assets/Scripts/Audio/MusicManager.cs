@@ -65,7 +65,7 @@ public class MusicManager : MonoBehaviour
         PlayMainMenuMusic(); // ¬ключаем музыку главного меню
     }
 
-    private void PlayRandomTrack()
+    public void PlayRandomTrack()
     {
         int randomIndex = Random.Range(0, gameMusicTracks.Length);
         audioSource.clip = gameMusicTracks[randomIndex];

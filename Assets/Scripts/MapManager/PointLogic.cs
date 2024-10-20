@@ -114,10 +114,12 @@ public class PointLogic : MonoBehaviour
             {
                 transform.tag = "pointRd";
             }
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z);
         }
         else
         {
             isSelected = false;
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, 0.0f, gameObject.transform.position.z);
         }
 
         if (Player.isStep)
@@ -329,7 +331,7 @@ public class PointLogic : MonoBehaviour
         {
             if(StructureText == "Shaman")
             {
-                Invocation.factorShaman = 2;
+                Invocation.factorShaman = 6;
             }
         }
     }

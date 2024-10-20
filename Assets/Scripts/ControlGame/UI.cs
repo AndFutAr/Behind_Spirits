@@ -12,6 +12,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject _sidePro, _sideSoc;
 
     [SerializeField] private GameObject _invocControl0, _invocControl1;
+    [SerializeField] private GameObject Okno;
 
     void Start()
     {
@@ -115,5 +116,9 @@ public class UI : MonoBehaviour
     {
         _invocControl0.SetActive(false);
         _invocControl1.SetActive(true);
+    }
+    public void CloseStudy()
+    {
+        Okno.SetActive(false);
     }
 }

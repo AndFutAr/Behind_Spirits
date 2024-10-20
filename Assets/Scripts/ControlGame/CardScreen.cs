@@ -22,9 +22,16 @@ public class CardScreen : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [SerializeField] private int _structType = 0;
     [SerializeField] private int _structBuff = 0;
 
+    private float x, y;
+    private Vector3 StartScale;
+
     void Start()
     {
         StartPos = transform.position;
+
+        StartScale = transform.localScale;
+        x = transform.localScale.x;
+        y = transform.localScale.y;
     }
     void Update()
     {
@@ -52,6 +59,9 @@ public class CardScreen : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         Vector3 newPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         newPosition.z = 0;
         transform.position = newPosition;
+        x = 0.3f;
+        y = 0.3f;
+        gameObject.transform.localScale = new Vector3(x, y, transform.localScale.z);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -66,6 +76,7 @@ public class CardScreen : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             _count -= 1;
             _formalCount -= 1;
         }
+        transform.localScale = StartScale;
         transform.SetParent(_defaultParent);
         transform.position = StartPos;
         GetComponent<CanvasGroup>().blocksRaycasts = true;

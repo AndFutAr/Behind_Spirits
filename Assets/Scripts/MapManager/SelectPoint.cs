@@ -37,7 +37,6 @@ public class SelectPoint : MonoBehaviour
                     if ((HallHit.transform.tag == "pointRd" || HallHit.transform.tag == "pointDisRd" || HallHit.transform.tag == "pointSt") && _selectedPoint == null)
                     {
                         _selectedPoint = HallHit.transform;
-                        _selectedPoint.position = new Vector3(_selectedPoint.position.x, 0.1f, _selectedPoint.position.z);
 
                         _ParamMenu.SetActive(true);
                         if (_selectedPoint.tag == "pointSt")
